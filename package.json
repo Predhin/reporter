@@ -1,0 +1,30 @@
+{
+  "name": "reporter",
+  "version": "0.1.0",
+  "description": "Reporter for sending reports in mail",
+  "main": "/",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Predhin/reporter.git"
+  },
+  "author": "Predhin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Predhin/reporter/issues"
+  },
+  "homepage": "https://github.com/Predhin/reporter#readme",
+  "dependencies": {
+    "dot-prop": "^4.2.0",
+    "jsonfile": "^5.0.0",
+    "nodemailer": "^5.1.1",
+    "pdfkit": "^0.9.0",
+    "voilab-pdf-table": "^0.4.0",
+    "xlsx": "^0.14.1"
+  },
+  "devDependencies": {
+    "eslint-config-node": "^4.0.0"
+  }
+}
