@@ -1,61 +1,46 @@
 /**
- * Index
+ * Index(Main Runner)
  */
 const { ExcelReader } = require( "./app/features/excel/ExcelReader" );
 const { Mailer } = require( "./app/features/mail/Mailer" );
 const { Documenter } = require( "./app/features/document/Documenter" );
+const { Utility } = require( "./app/shared/Utility" );
+const config = require( "config" );
 
 class Index {
     constructor() {
+        // initialization
         this.excelReader = new ExcelReader();
         this.importPath = "./input";
-        this.exportPath = "out";
+        this.exportPath = "/output";
         this.mailer = new Mailer();
         this.documenter = new Documenter();
+        this.utility = new Utility();
     }
     run() {
-        const dataDictionary = this.excelReader.read( `${this.importPath}/bill-details.xlsx` );
-
-        // eslint-disable-next-line no-console
-        console.log( dataDictionary );
+        // read excel file
+        const dataDictionary = this.excelReader.read( `${this.importPath}/${config.get( "filename" )}.xlsx` ),
+            objectDictionaries = this.utility.getObjectDictionary( dataDictionary );
         
-        // eslint-disable-next-line one-var
-        const objectDictionaries = this.getObjectDictionary( dataDictionary );
-
+        // this contains all rows of the excel in a generalized format
         objectDictionaries.forEach( ( objectDictionary ) => {
-            // eslint-disable-next-line no-console
-            console.log( objectDictionary );
-            // this.mailer.send();
+            const start = new Date();
+            const hrstart = process.hrtime();
+            // create document from data received from Excel
             this.documenter.create( objectDictionary ).then( ( pdfData ) => {
-                this.mailer.send( pdfData );
+                this.mailer.send( pdfData, objectDictionary ).then( () => {
+                    const end = new Date() - start,
+                        hrend = process.hrtime(hrstart);
+                    // eslint-disable-next-line no-console
+                    console.log( `Mail triggered to ${objectDictionary[ 1 ].value}` );
+                    console.info('Execution time: %dms', end);
+                } );
             } );
         } );
     }
 
-    getObjectDictionary( dataDictionary ) {
-        let dataArray = [],
-            keys = [],
-            dataDictionaryKeys = [],
-            objectDictionary = [];
-        // iterate each sheet
-
-        dataDictionaryKeys = Object.keys( dataDictionary );
-        for ( const dataDictionaryKey of dataDictionaryKeys ) {
-            // eslint-disable-next-line no-empty
-            for ( const row of dataDictionary[ dataDictionaryKey ] ) {
-                dataArray = [];
-                keys = Object.keys( row );
-                // eslint-disable-next-line no-loop-func
-                keys.forEach( ( key ) => {
-                    dataArray.push( { "key": key, "value": row[ key ] } );
-                } );
-                objectDictionary.push( dataArray );
-            }
-        }
-
-        return objectDictionary;
-    }
 }
 
+// start application
 new Index().run();
 

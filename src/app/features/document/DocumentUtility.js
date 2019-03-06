@@ -19,8 +19,6 @@ class DocumentUtility {
 
                 let pdfData = Buffer.concat( buffers );
 
-                // eslint-disable-next-line no-console
-                console.log( pdfData );
                 resolve( pdfData );
 
             } );
@@ -35,20 +33,23 @@ class DocumentUtility {
                 } ) )
             // set defaults to your columns
                 .setColumnsDefaults( {
-                    "headerBorder": "B",
+                    "border": "B",
                     "align": "right"
                 } )
             // add table columns
                 .addColumns( [
                     {
                         "id": "key",
-                        "header": "Field",
-                        "align": "left"
+                        "header": "",
+                        "align": "left",
+                        "width": 200,
+                        "stroke": true
                     },
                     {
                         "id": "value",
-                        "header": "Value",
-                        "width": 80
+                        "header": "",
+                        "width": 200,
+                        "align": "left"
                     }
                 ] )
             // add events (here, we draw headers on each new page)

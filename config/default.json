@@ -1,0 +1,21 @@
+{
+  "filename": "bill-details",
+  "credential": {
+    "gmail": {
+      "user": "fluorkuwaitonline@gmail.com",
+      "password": "kuwait@123",
+      "name": "Flour Admin"
+    }
+  },
+  "master": {
+    "user": "previnsapru@gmail.com"
+  },
+  "document": {
+    "name": "bill-details"
+  },
+  "mail": {
+    "service": "gmail",
+    "subject": "Know Your Corporate Mobility Asset Usage & Billing",
+    "attachmentfilename": "bill"
+  }
+}

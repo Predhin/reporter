@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Predhin/reporter#readme",
   "dependencies": {
+    "config": "^3.0.1",
+    "dateformat": "^3.0.3",
     "dot-prop": "^4.2.0",
     "jsonfile": "^5.0.0",
     "nodemailer": "^5.1.1",
