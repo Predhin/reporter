@@ -40,12 +40,12 @@ class MailUtility {
     }
 
     getBodyHTML( objectDictionary ) {
-        let now = dateformat( new Date(), "dddd, mmmm dS, yyyy" );
+        let now = dateformat( new Date(), "mmmm dS, yyyy" );
         const tableString = this.getTabularSummaryHTML( objectDictionary );
 
         return `
         <p>Dear Associate,</p>
-        <p>Please find enclosed the E-bill for the bill dated:${now}</p>
+        <p>Please find enclosed the E-bill for the bill dated: ${now}</p>
         <p>Summary of usage charges for this bill period.</p>
         <p>
         ${tableString}

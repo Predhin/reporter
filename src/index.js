@@ -23,22 +23,37 @@ class Index {
         const start = new Date(),
             // read excel file
             dataDictionary = this.excelReader.read( `${this.importPath}/${config.get( "filename" )}.xlsx` ),
-            objectDictionaries = this.utility.getObjectDictionary( dataDictionary );
-        
+            objectDictionaries = this.utility.getObjectDictionary( dataDictionary ),
+            promises = [];
         // this contains all rows of the excel in a generalized format
+
         objectDictionaries.forEach( ( objectDictionary ) => {
-            // create document from data received from Excel
+            promises.push( this.startProcess( objectDictionary ) );
+        } );
+        Promise.all( promises ).then( ( ) => {
+            const end = new Date() - start;
+
+            // eslint-disable-next-line no-console
+            console.info( "Execution time: %dms", end );
+        } );
+    }
+
+    startProcess( objectDictionary ) {
+        return new Promise( ( resolve, reject ) => {
+        // create document from data received from Excel
             this.documenter.create( objectDictionary ).then( ( pdfData ) => {
                 this.mailer.send( pdfData, objectDictionary ).then( () => {
-                    // eslint-disable-next-line no-console
+                // eslint-disable-next-line no-console
 
                     // eslint-disable-next-line no-console
                     console.log( `Mail triggered to ${objectDictionary.vo[ this.UNIQUEFIELD.name ]}` );
-                    const end = new Date() - start;
-
-                    // eslint-disable-next-line no-console
-                    console.info( "Execution time: %dms", end );
+                    // success, all good
+                    resolve( { "message": `Work Flow Completed for ${objectDictionary.vo[ this.UNIQUEFIELD.name ]}` } );
+                }, () => {
+                    reject( { "message": `Failed to send email, Work Flow failed for ${objectDictionary.vo[ this.UNIQUEFIELD.name ]}` } );
                 } );
+            }, () => {
+                reject( { "message": `Failed to create document, Work Flow failed for ${objectDictionary.vo[ this.UNIQUEFIELD.name ]}` } );
             } );
         } );
     }
