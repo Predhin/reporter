@@ -19,7 +19,7 @@ class MailUtility {
                     "from": `${config.get( "credential.gmail.user" )}`, // sender address
                     "to": `${config.get( "master.user" )}`, // list of receivers
                     "subject": `${config.get( "mail.subject" )}`, // Subject line
-                    "html": this.getBodyHTML(objectDictionary), // plain text body,
+                    "html": this.getBodyHTML( objectDictionary.list ), // plain text body,
                     "attachments": [
                         { // binary buffer as an attachment
                             "filename": `${config.get( "mail.attachmentfilename" )}.pdf`,
@@ -39,9 +39,10 @@ class MailUtility {
         } );
     }
 
-    getBodyHTML(objectDictionary) {
-        let now = dateformat( new Date(), "dddd, mmmm dS, yyyy");
-        const tableString = this.getTabularSummaryHTML(objectDictionary);
+    getBodyHTML( objectDictionary ) {
+        let now = dateformat( new Date(), "dddd, mmmm dS, yyyy" );
+        const tableString = this.getTabularSummaryHTML( objectDictionary );
+
         return `
         <p>Dear Associate,</p>
         <p>Please find enclosed the E-bill for the bill dated:${now}</p>
@@ -56,14 +57,16 @@ class MailUtility {
         `;
     }
 
-    getTabularSummaryHTML(objectDictionary) {
-        let headerString = "";
-        let bodyString = "";
-        objectDictionary.forEach( (aItem ) => {
-            headerString = headerString + `<th style="border: 1px solid black;">${ aItem.key}</th>`;
-            bodyString = bodyString + `<td style="border: 1px solid black;">${aItem.value}</td>`;
+    getTabularSummaryHTML( objectDictionary ) {
+        let headerString = "",
+            bodyString = "",
+            tableString = "";
+
+        objectDictionary.forEach( ( aItem ) => {
+            headerString = `${headerString }<th style="border: 1px solid black;">${ aItem.key}</th>`;
+            bodyString = `${bodyString }<td style="border: 1px solid black;">${aItem.value}</td>`;
         } );
-        let tableString = `<table style="border: 1px solid black;">
+        tableString = `<table style="border: 1px solid black;">
                         <thead style="color:#500050;text-transform: uppercase;">
                         <tr>
                             ${headerString}
@@ -76,6 +79,7 @@ class MailUtility {
                         </tbody>
                       </table>
                       `;
+
         return tableString;
     }
 }

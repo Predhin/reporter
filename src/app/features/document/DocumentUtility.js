@@ -61,7 +61,7 @@ class DocumentUtility {
             pdf.addPage();
  
             // draw content, by passing data to the addBody method
-            table.addBody( content );
+            table.addBody( content.list );
 
             pdf.end();
         } );

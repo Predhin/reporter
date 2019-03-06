@@ -13,27 +13,31 @@ class Index {
         this.excelReader = new ExcelReader();
         this.importPath = "./input";
         this.exportPath = "/output";
+        this.UNIQUEFIELD = config.get( "uniquefield" );
         this.mailer = new Mailer();
         this.documenter = new Documenter();
         this.utility = new Utility();
     }
     run() {
-        // read excel file
-        const dataDictionary = this.excelReader.read( `${this.importPath}/${config.get( "filename" )}.xlsx` ),
+        // eslint-disable-next-line no-console
+        const start = new Date(),
+            // read excel file
+            dataDictionary = this.excelReader.read( `${this.importPath}/${config.get( "filename" )}.xlsx` ),
             objectDictionaries = this.utility.getObjectDictionary( dataDictionary );
         
         // this contains all rows of the excel in a generalized format
         objectDictionaries.forEach( ( objectDictionary ) => {
-            const start = new Date();
-            const hrstart = process.hrtime();
             // create document from data received from Excel
             this.documenter.create( objectDictionary ).then( ( pdfData ) => {
                 this.mailer.send( pdfData, objectDictionary ).then( () => {
-                    const end = new Date() - start,
-                        hrend = process.hrtime(hrstart);
                     // eslint-disable-next-line no-console
-                    console.log( `Mail triggered to ${objectDictionary[ 1 ].value}` );
-                    console.info('Execution time: %dms', end);
+
+                    // eslint-disable-next-line no-console
+                    console.log( `Mail triggered to ${objectDictionary.vo[ this.UNIQUEFIELD.name ]}` );
+                    const end = new Date() - start;
+
+                    // eslint-disable-next-line no-console
+                    console.info( "Execution time: %dms", end );
                 } );
             } );
         } );

@@ -17,5 +17,10 @@
     "service": "gmail",
     "subject": "Know Your Corporate Mobility Asset Usage & Billing",
     "attachmentfilename": "bill"
+  },
+  "uniquefield": {
+    "name": "Subscriber name",
+    "id": "SAP Number",
+    "email": "Email ID"
   }
 }

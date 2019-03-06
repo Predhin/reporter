@@ -20,11 +20,20 @@ class Utility {
                 keys.forEach( ( key ) => {
                     dataArray.push( { "key": key.toUpperCase(), "value": row[ key ] } );
                 } );
-                objectDictionary.push( dataArray );
+                objectDictionary.push( { "list": dataArray, "vo": row } );
             }
         }
 
         return objectDictionary;
+    }
+
+    getFieldByKey( key, objectDictionary ) {
+        for ( const aProp of objectDictionary ) {
+            if ( aProp.key === key ) {
+                return aProp.value;
+            }
+        }
+        return "";
     }
     
 }
