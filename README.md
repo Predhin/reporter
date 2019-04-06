@@ -44,6 +44,62 @@ or
 npm start
 ```
 
+### How to use the application
+
+All that is required to use the application is configured through the file(default.json) inside the config folder. Application reads the excel (.xlsx) file inside the input folder and based on the configuration provided inside the default.json file inside config folder it triggers mail to each party(row inside excel). Below is the content of configuration file.
+
+default.json
+
+```json
+{
+  "credential": {
+    "gmail": {
+      "user": "<sender-email>",
+      "password": "<sender-password>",
+      "name": "<sender-name>"
+    }
+  },
+  "master": {
+    "user": "<receiver-email>"
+  },
+  "document": {
+    "name": "<filename of input file>"
+  },
+  "mail": {
+    "service": "gmail",
+    "subject": "Know Your Corporate Mobility Asset Usage & Billing",
+    "attachmentfilename": "bill"
+  },
+  "uniquefield": {
+    "name": "Subscriber name",
+    "id": "SAP Number",
+    "email": "Email ID"
+  }
+}
+```
+
+#### See below the various configurations available:
+
+##### credential
+
+The credential used for sending email, currently we only have integration with GMAIL mail service.
+
+##### master
+
+The master user who is supposed to receive all the emails is provided through this property.
+
+##### document
+
+The name of input excel(.xlsx) file which contains details of each parties.
+
+##### mail
+
+The details required for mail are provided through this property. Currently we only have integration with gmail, so do not change the "service" property. The "subject" property is used for providing the subject of the mail triggered and the "attachmentfilename" property is used to provide the name of the attachment file send in the mail.
+
+##### uniquefield
+
+This field is used to identify the unique identifiers(id, name & email) for each party details. No need to change these values unless the column name of the current input excel(.xlsx) file changes.
+
 ### Features
 
 - [x] Bulk Mailer

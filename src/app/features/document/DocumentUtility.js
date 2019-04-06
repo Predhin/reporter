@@ -11,7 +11,7 @@ class DocumentUtility {
             let pdf = new PDFDocument( { "autoFirstPage": false } ),
                 buffers = [],
                 table = new PdfTable( pdf, {
-                    "bottomMargin": 30
+                    "bottomMargin": 40
                 } );
 
             pdf.on( "data", buffers.push.bind( buffers ) );
@@ -34,7 +34,8 @@ class DocumentUtility {
             // set defaults to your columns
                 .setColumnsDefaults( {
                     "border": "B",
-                    "align": "right"
+                    "align": "right",
+                    "padding": [ 5, 5, 5, 5 ]
                 } )
             // add table columns
                 .addColumns( [

@@ -22,7 +22,7 @@ class Index {
         // eslint-disable-next-line no-console
         const start = new Date(),
             // read excel file
-            dataDictionary = this.excelReader.read( `${this.importPath}/${config.get( "filename" )}.xlsx` ),
+            dataDictionary = this.excelReader.read( `${this.importPath}/${config.get( "document.name" )}.xlsx` ),
             objectDictionaries = this.utility.getObjectDictionary( dataDictionary ),
             promises = [];
         // this contains all rows of the excel in a generalized format

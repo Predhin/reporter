@@ -63,8 +63,8 @@ class MailUtility {
             tableString = "";
 
         objectDictionary.forEach( ( aItem ) => {
-            headerString = `${headerString }<th style="border: 1px solid black;">${ aItem.key}</th>`;
-            bodyString = `${bodyString }<td style="border: 1px solid black;">${aItem.value}</td>`;
+            headerString = `${headerString }<th style="border: 1px solid black;color:#500050;">${ aItem.key}</th>`;
+            bodyString = `${bodyString }<td style="border: 1px solid black;color:#500050;">${aItem.value}</td>`;
         } );
         tableString = `<table style="border: 1px solid black;">
                         <thead style="color:#500050;text-transform: uppercase;">
